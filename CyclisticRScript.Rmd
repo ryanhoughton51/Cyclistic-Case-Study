@@ -1,0 +1,116 @@
+---
+title: "BikeTripData"
+author: "Ryan Houghotn"
+date: "2022-08-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+
+```
+```{r}
+install.packages("dplyr")
+library(dplyr)
+```
+
+
+
+```{r}
+
+install.packages("ggplot2")
+install.packages("skimr")
+install.packages("janitor")
+library(ggplot2)
+library(skimr)
+library(janitor)
+```
+```{r}
+getwd()
+setwd("C:/Users/Office/Documents/GoogleCaseStudy")
+jan_trips<- read.csv("202101-divvy-tripdata.csv")
+feb_trips<- read.csv("202102-divvy-tripdata.csv")
+mar_trips<- read.csv("202103-divvy-tripdata.csv")
+```
+```{r}
+colnames(jan_trips)
+colnames(dec_trips)
+```
+```{r}
+str(jan_trips)
+```
+```{r}
+trips_2021 <- rbind(jan_trips,feb_trips,mar_trips)
+```
+
+```{r}
+head(trips_2021)
+```
+```{r}
+trips_2021$started_at = strptime(trips_2021$started_at,"%Y-%m-%d %H:%M:%S")
+trips_2021$ended_at = strptime(trips_2021$ended_at,"%Y/%m/%d %H:%M:%S")
+```
+
+```{r}
+str(trips_2021)
+```
+
+
+```{r}
+trips_2021<-mutate(trips_2021,tripduration=difftime(ended_at,started_at,units = "secs"))
+```
+
+
+```{r}
+colnames(trips_2021)
+```
+
+```{r}
+
+```
+
+
+
+
+```{r}
+trips_2021<-mutate(trips_2021,weekday=weekdays(started_at))
+```
+
+```{r}
+Trips2021<- Trips2021 %>%
+na_if("")  %>%
+na_omit
+```
+
+
+```{r}
+trips_2021<-arrange(trips_2021,started_at)
+View(trips_2021)
+```
+
+
+
+```{r}
+write.csv(trips_2021,"C:/Users/Office/Documents/GoogleCaseStudy/bikedata2.csv")
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
